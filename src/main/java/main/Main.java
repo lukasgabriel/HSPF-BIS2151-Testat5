@@ -148,6 +148,18 @@ public class Main extends javax.swing.JFrame {
         deletDishDialogueSecondLabel = new javax.swing.JLabel();
         deletDishDialogueConfirmButton = new javax.swing.JButton();
         deletDishDialogueCancelButton = new javax.swing.JButton();
+        settingsDialogue = new javax.swing.JDialog();
+        settingsDialogueContentPane = new javax.swing.JPanel();
+        settingsDialogueContentInner = new javax.swing.JPanel();
+        settingsDialogueTitle = new javax.swing.JLabel();
+        settingsDialogueName = new javax.swing.JLabel();
+        settingsDialogueNameInput = new javax.swing.JTextField();
+        setingsDialogueCancelButton = new javax.swing.JButton();
+        settingsDialogueUpdateButton = new javax.swing.JButton();
+        settingsDialogueVersion = new javax.swing.JLabel();
+        settingsDialogueVersionInput = new javax.swing.JTextField();
+        settingsDialogueLicense = new javax.swing.JLabel();
+        settingsDialogueLicenseInput = new javax.swing.JTextField();
         navPane = new javax.swing.JPanel();
         overviewButton = new javax.swing.JButton();
         flightButton = new javax.swing.JButton();
@@ -239,8 +251,8 @@ public class Main extends javax.swing.JFrame {
         dishOverviewNewDishButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        exitMenu = new javax.swing.JMenuItem();
         settingsMenu = new javax.swing.JMenuItem();
+        exitMenu = new javax.swing.JMenuItem();
         basicDataMenu = new javax.swing.JMenu();
         overviewMenu = new javax.swing.JMenuItem();
         seperator = new javax.swing.JPopupMenu.Separator();
@@ -1171,6 +1183,154 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(deletDishDialogueConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
+
+        settingsDialogue.setTitle("Program Settings");
+        settingsDialogue.setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        settingsDialogue.setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
+        settingsDialogue.setName("Settings"); // NOI18N
+        settingsDialogue.setSize(new java.awt.Dimension(600, 400));
+        settingsDialogue.setType(java.awt.Window.Type.POPUP);
+
+        settingsDialogueContentInner.setBackground(new java.awt.Color(255, 255, 255));
+
+        settingsDialogueTitle.setFont(new java.awt.Font("Roboto Condensed", 0, 18)); // NOI18N
+        settingsDialogueTitle.setText("Settings");
+
+        settingsDialogueName.setFont(new java.awt.Font("Roboto Condensed", 0, 14)); // NOI18N
+        settingsDialogueName.setText("Program Name:");
+
+        settingsDialogueNameInput.setBackground(new java.awt.Color(240, 240, 240));
+        settingsDialogueNameInput.setFont(new java.awt.Font("Roboto Condensed", 0, 11)); // NOI18N
+        settingsDialogueNameInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsDialogueNameInputActionPerformed(evt);
+            }
+        });
+
+        setingsDialogueCancelButton.setBackground(new java.awt.Color(200, 20, 20));
+        setingsDialogueCancelButton.setForeground(new java.awt.Color(255, 255, 255));
+        setingsDialogueCancelButton.setText("Cancel");
+        setingsDialogueCancelButton.setBorder(null);
+        setingsDialogueCancelButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setingsDialogueCancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setingsDialogueCancelButtonActionPerformed(evt);
+            }
+        });
+
+        settingsDialogueUpdateButton.setBackground(new java.awt.Color(20, 200, 20));
+        settingsDialogueUpdateButton.setText("Update");
+        settingsDialogueUpdateButton.setBorder(null);
+        settingsDialogueUpdateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        settingsDialogueUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsDialogueUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        settingsDialogueVersion.setFont(new java.awt.Font("Roboto Condensed", 0, 14)); // NOI18N
+        settingsDialogueVersion.setText("Version:");
+
+        settingsDialogueVersionInput.setBackground(new java.awt.Color(240, 240, 240));
+        settingsDialogueVersionInput.setFont(new java.awt.Font("Roboto Condensed", 0, 11)); // NOI18N
+        settingsDialogueVersionInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsDialogueVersionInputActionPerformed(evt);
+            }
+        });
+
+        settingsDialogueLicense.setFont(new java.awt.Font("Roboto Condensed", 0, 14)); // NOI18N
+        settingsDialogueLicense.setText("License Holder:");
+
+        settingsDialogueLicenseInput.setBackground(new java.awt.Color(240, 240, 240));
+        settingsDialogueLicenseInput.setFont(new java.awt.Font("Roboto Condensed", 0, 11)); // NOI18N
+        settingsDialogueLicenseInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsDialogueLicenseInputActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout settingsDialogueContentInnerLayout = new javax.swing.GroupLayout(settingsDialogueContentInner);
+        settingsDialogueContentInner.setLayout(settingsDialogueContentInnerLayout);
+        settingsDialogueContentInnerLayout.setHorizontalGroup(
+            settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsDialogueContentInnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsDialogueContentInnerLayout.createSequentialGroup()
+                        .addGap(0, 319, Short.MAX_VALUE)
+                        .addComponent(settingsDialogueUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(setingsDialogueCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(settingsDialogueContentInnerLayout.createSequentialGroup()
+                        .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(settingsDialogueTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(settingsDialogueName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(settingsDialogueLicense, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(settingsDialogueVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(settingsDialogueVersionInput, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
+                            .addComponent(settingsDialogueNameInput, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(settingsDialogueLicenseInput))))
+                .addContainerGap())
+        );
+        settingsDialogueContentInnerLayout.setVerticalGroup(
+            settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsDialogueContentInnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(settingsDialogueTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsDialogueName, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsDialogueNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsDialogueVersionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsDialogueVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsDialogueLicense, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsDialogueLicenseInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addGroup(settingsDialogueContentInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(setingsDialogueCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(settingsDialogueUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22))
+        );
+
+        javax.swing.GroupLayout settingsDialogueContentPaneLayout = new javax.swing.GroupLayout(settingsDialogueContentPane);
+        settingsDialogueContentPane.setLayout(settingsDialogueContentPaneLayout);
+        settingsDialogueContentPaneLayout.setHorizontalGroup(
+            settingsDialogueContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsDialogueContentPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(settingsDialogueContentInner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        settingsDialogueContentPaneLayout.setVerticalGroup(
+            settingsDialogueContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsDialogueContentPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(settingsDialogueContentInner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout settingsDialogueLayout = new javax.swing.GroupLayout(settingsDialogue.getContentPane());
+        settingsDialogue.getContentPane().setLayout(settingsDialogueLayout);
+        settingsDialogueLayout.setHorizontalGroup(
+            settingsDialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(settingsDialogueContentPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        settingsDialogueLayout.setVerticalGroup(
+            settingsDialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(settingsDialogueContentPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        settingsDialogueContentPane.getAccessibleContext().setAccessibleName("");
+
+        settingsDialogue.getAccessibleContext().setAccessibleName("Settings");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EAF: Eat&Fly Management");
@@ -2303,14 +2463,7 @@ public class Main extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        exitMenu.setText("Exit Program");
-        exitMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitMenuActionPerformed(evt);
-            }
-        });
-        fileMenu.add(exitMenu);
-
+        settingsMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         settingsMenu.setActionCommand("Settings");
         settingsMenu.setLabel("Settings");
         settingsMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -2319,6 +2472,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
         fileMenu.add(settingsMenu);
+
+        exitMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        exitMenu.setText("Exit Program");
+        exitMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuActionPerformed(evt);
+            }
+        });
+        fileMenu.add(exitMenu);
 
         menuBar.add(fileMenu);
 
@@ -2892,12 +3054,34 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_deletDishDialogueCancelButtonActionPerformed
 
     private void setingsSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setingsSubMenuActionPerformed
-        // TODO add your handling code here:
+        settingsDialogue.setLocationRelativeTo(flightOverviewPane);
+        settingsDialogue.setVisible(true);
     }//GEN-LAST:event_setingsSubMenuActionPerformed
 
     private void helpSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpSubMenuActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_helpSubMenuActionPerformed
+
+    private void settingsDialogueNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsDialogueNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsDialogueNameInputActionPerformed
+
+    private void setingsDialogueCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setingsDialogueCancelButtonActionPerformed
+        settingsDialogue.setVisible(false);
+    }//GEN-LAST:event_setingsDialogueCancelButtonActionPerformed
+
+    private void settingsDialogueUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsDialogueUpdateButtonActionPerformed
+        // TODO add your handling code here:
+        settingsDialogue.setVisible(false);
+    }//GEN-LAST:event_settingsDialogueUpdateButtonActionPerformed
+
+    private void settingsDialogueVersionInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsDialogueVersionInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsDialogueVersionInputActionPerformed
+
+    private void settingsDialogueLicenseInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsDialogueLicenseInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsDialogueLicenseInputActionPerformed
 
     /**
      * @param args the command line arguments
@@ -3209,6 +3393,18 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane quickAccessTabPane;
     private javax.swing.JLabel quickAcessLabel;
     private javax.swing.JPopupMenu.Separator seperator;
+    private javax.swing.JButton setingsDialogueCancelButton;
+    private javax.swing.JDialog settingsDialogue;
+    private javax.swing.JPanel settingsDialogueContentInner;
+    private javax.swing.JPanel settingsDialogueContentPane;
+    private javax.swing.JLabel settingsDialogueLicense;
+    private javax.swing.JTextField settingsDialogueLicenseInput;
+    private javax.swing.JLabel settingsDialogueName;
+    private javax.swing.JTextField settingsDialogueNameInput;
+    private javax.swing.JLabel settingsDialogueTitle;
+    private javax.swing.JButton settingsDialogueUpdateButton;
+    private javax.swing.JLabel settingsDialogueVersion;
+    private javax.swing.JTextField settingsDialogueVersionInput;
     private javax.swing.JMenuItem settingsMenu;
     private javax.swing.JLabel taskContent;
     private javax.swing.JLabel taskLabel;
