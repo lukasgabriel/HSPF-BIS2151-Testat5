@@ -240,6 +240,7 @@ public class Main extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenu = new javax.swing.JMenuItem();
+        settingsMenu = new javax.swing.JMenuItem();
         basicDataMenu = new javax.swing.JMenu();
         overviewMenu = new javax.swing.JMenuItem();
         seperator = new javax.swing.JPopupMenu.Separator();
@@ -1331,7 +1332,7 @@ public class Main extends javax.swing.JFrame {
             flightTablePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(flightTablePaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(flightTableInnerPane, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addComponent(flightTableInnerPane, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -1587,7 +1588,7 @@ public class Main extends javax.swing.JFrame {
             flightOverviewPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(flightOverviewPaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(flightOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(flightOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                 .addGap(200, 200, 200))
         );
 
@@ -1603,8 +1604,8 @@ public class Main extends javax.swing.JFrame {
         );
         flightContentPaneLayout.setVerticalGroup(
             flightContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(flightOverviewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
-            .addComponent(flightTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addComponent(flightOverviewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+            .addComponent(flightTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
         );
 
         contentPane.add(flightContentPane, "flightContentPane");
@@ -1900,7 +1901,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(taskLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(taskScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE))
+                .addComponent(taskScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout accessTaskPanelLayout = new javax.swing.GroupLayout(accessTaskPanel);
@@ -2012,7 +2013,7 @@ public class Main extends javax.swing.JFrame {
             dishTablePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dishTablePaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(dishTablePaneInner, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addComponent(dishTablePaneInner, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -2287,7 +2288,7 @@ public class Main extends javax.swing.JFrame {
             dishOverviewPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dishOverviewPaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(dishOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(dishOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                 .addGap(200, 200, 200))
         );
 
@@ -2309,6 +2310,15 @@ public class Main extends javax.swing.JFrame {
             }
         });
         fileMenu.add(exitMenu);
+
+        settingsMenu.setActionCommand("Settings");
+        settingsMenu.setLabel("Settings");
+        settingsMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setingsSubMenuActionPerformed(evt);
+            }
+        });
+        fileMenu.add(settingsMenu);
 
         menuBar.add(fileMenu);
 
@@ -2369,6 +2379,11 @@ public class Main extends javax.swing.JFrame {
 
         helpSubMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         helpSubMenu.setText("Help");
+        helpSubMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpSubMenuActionPerformed(evt);
+            }
+        });
         helpMenu.add(helpSubMenu);
 
         aboutSubMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
@@ -2876,6 +2891,14 @@ public class Main extends javax.swing.JFrame {
         deleteDishDialogue.setVisible(false);
     }//GEN-LAST:event_deletDishDialogueCancelButtonActionPerformed
 
+    private void setingsSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setingsSubMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_setingsSubMenuActionPerformed
+
+    private void helpSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpSubMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_helpSubMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3186,6 +3209,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane quickAccessTabPane;
     private javax.swing.JLabel quickAcessLabel;
     private javax.swing.JPopupMenu.Separator seperator;
+    private javax.swing.JMenuItem settingsMenu;
     private javax.swing.JLabel taskContent;
     private javax.swing.JLabel taskLabel;
     private javax.swing.JScrollPane taskScrollPane;

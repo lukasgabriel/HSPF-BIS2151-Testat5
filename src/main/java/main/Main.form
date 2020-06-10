@@ -1587,6 +1587,18 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitMenuActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="settingsMenu">
+              <Properties>
+                <Property name="actionCommand" type="java.lang.String" value="Settings"/>
+                <Property name="label" type="java.lang.String" value="Settings"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setingsSubMenuActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Main_settingsMenu"/>
+              </AuxValues>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="basicDataMenu">
@@ -1669,6 +1681,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Help"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="helpSubMenuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="aboutSubMenu">
               <Properties>
@@ -1890,8 +1905,8 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="flightOverviewPane" alignment="0" pref="593" max="32767" attributes="0"/>
-                  <Component id="flightTablePane" alignment="0" pref="593" max="32767" attributes="0"/>
+                  <Component id="flightOverviewPane" alignment="0" pref="591" max="32767" attributes="0"/>
+                  <Component id="flightTablePane" alignment="0" pref="591" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -1916,7 +1931,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="flightTableInnerPane" pref="553" max="32767" attributes="0"/>
+                          <Component id="flightTableInnerPane" pref="551" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2031,7 +2046,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="flightOverview" pref="373" max="32767" attributes="0"/>
+                          <Component id="flightOverview" pref="371" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -3005,7 +3020,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="taskLabel" min="-2" pref="29" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="taskScrollPane" pref="314" max="32767" attributes="0"/>
+                              <Component id="taskScrollPane" pref="318" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -3103,7 +3118,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="dishTablePaneInner" pref="553" max="32767" attributes="0"/>
+                          <Component id="dishTablePaneInner" pref="551" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -3256,7 +3271,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                          <Component id="dishOverview" pref="373" max="32767" attributes="0"/>
+                          <Component id="dishOverview" pref="371" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                   </Group>
