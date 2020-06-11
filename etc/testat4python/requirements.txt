@@ -1,2 +1,10 @@
+base64
+dotenv
+cryptography
+hashlib
 pandas
+numpy
+datetime
 hashids
+random
+pickle
