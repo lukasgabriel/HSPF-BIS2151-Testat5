@@ -14,7 +14,6 @@ from cryptography.fernet import Fernet
 from hashlib import sha256
 import pandas as pd
 from numpy import nan
-import urllib.request
 from datetime import datetime, timedelta
 from hashids import Hashids
 import random
