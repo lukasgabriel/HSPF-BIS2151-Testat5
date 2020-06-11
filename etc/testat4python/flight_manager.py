@@ -4,12 +4,21 @@
 This console application manages the information used by an air travel catering company.
 '''
 
+import base64
+import os
+from dotenv import load_dotenv
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.fernet import Fernet
+from hashlib import sha256
 import pandas as pd
 from numpy import nan
 import urllib.request
 from datetime import datetime, timedelta
 from hashids import Hashids
 import random
+import pickle
 
 import data.examples
 
@@ -98,6 +107,18 @@ class Dish():
         'flights'
     ]
 
+    dish_data_initinfo = [
+        'dish_name',
+        'is_vegetarian',
+        'is_vegan',
+        'is_alcohol',
+        'allergens',
+        'dish_type',
+        'price',
+        'weight',
+        'calories'
+    ]
+
     dish_types = {'dessert': 'DST', 'warm-lunch': 'WLU', 'cold-lunch': 'CLU', 'warm-dinner': 'WDI', 'cold-dinner': 'CDI',
                   'warm-breakfast': 'WBR', 'cold-breakfast': 'CBR', 'sidedish': 'SDE', 'warm-beverage': 'WBV', 'cold-beverage': 'CBV', 'snack': 'SNA'}
 
@@ -151,6 +172,21 @@ class Dish():
         print(f'Deleting dish {self}...')
         del self
 
+    def to_csv(self):
+        csvstring = ''
+        header = ''
+        for field in self.dish_data_fields:
+            if field == 'dish_data': continue
+            header += f'{field},'
+            if field == 'flights':
+                value = str([f'{flight.flight_shortname}/{flight.flight_id}' for flight in self.flights])
+            else:
+                value = str(eval(f'self.{field}'))
+            csvstring += f'{value}|'
+        csvstring = csvstring.replace(',', ';').replace('|', ',')
+        return header, csvstring
+
+
 
 class Flight():
 
@@ -183,6 +219,14 @@ class Flight():
         'passengers',
         'passenger_count',
         'dishes'
+    ]
+
+    flight_data_initinfo = [
+        'origin_airport_iata',
+        'destination_airport_iata',
+        'departure_time',
+        'arrival_time',
+        'passengers'
     ]
 
     __slots__ = flight_data_fields
@@ -259,6 +303,23 @@ class Flight():
         print(f'Deleting flight {self}...')
         del self
 
+    def to_csv(self):
+        csvstring = ''
+        header = ''
+        for field in self.flight_data_fields:
+            if field in ['flight_data', 'origin_data', 'destination_data']: 
+                continue
+            header += f'{field},'
+            if field == 'dishes':
+                value = str([f'{dish.dish_shortname}/{dish.dish_id}' for dish in self.dishes])
+            elif field == 'flight_description':
+                value = self.flight_description.replace(',', '')
+            else:
+                value = str(eval(f'self.{field}'))
+            csvstring += f'{value}|'
+        csvstring = csvstring.replace(',', ';').replace('|', ',')
+        return header, csvstring
+
 
 def new_flight(flight_data: dict) -> Flight:
     flight = Flight(flight_data)
@@ -283,7 +344,7 @@ class Flight_Generator():
         response = []
         for i in range(x):
             try:
-                flight_data = {key:0 for key in Flight.flight_data_fields}
+                flight_data = {key:0 for key in Flight.flight_data_initinfo}
                 
                 flight_data['origin_airport_iata'] = airports.sample().index[0]
                 flight_data['destination_airport_iata'] = airports.sample().index[0]
@@ -315,7 +376,7 @@ class Flight_Generator():
                 fc = random.randint(0, 16)
                 bc = random.randint(0, 80)
                 ec = random.randint(0, 450)
-                flight_data['passengers'] = {'first_class': fc, 'business_class:': bc, 'economy_class': ec}
+                flight_data['passengers'] = {'first_class': fc, 'business_class': bc, 'economy_class': ec}
 
                 flight = new_flight(flight_data)
                 print('Random flight generated.')
@@ -326,6 +387,10 @@ class Flight_Generator():
 
 
 class Dish_Generator():
+
+    with open('data\dishes.csv', 'r') as example_dish_data:
+        example_dishes = [line.rstrip('\n') for line in example_dish_data]
+
     allergens = ['peanuts', 'tree nuts', 'milk', 'eggs', 'fish', 'shellfish', 'soy', 'wheat', 'sesame seeds', 'mustard', 'sulphites', 'gluten', 'celery', 'lupin']
 
     def __init__(self):
@@ -336,29 +401,141 @@ class Dish_Generator():
         response = []
         for i in range(x):
             try:
-                dish_data = {key:0 for key in Dish.dish_data_fields}
+                dish_data = {key:0 for key in Dish.dish_data_initinfo}
 
-                dish_data['dish_type'] = random.choice(Dish.dish_types.keys)
+                dish_data['dish_type'] = random.choice(list(Dish.dish_types.keys()))
                 dish_data['is_vegetarian'] = random.choice([False, True])
                 dish_data['is_vegan'] = random.choice([False, True]) if dish_data['is_vegetarian'] == True else False
-                dish_data['is_alcohol'] = random.choice([False, True]) if dish_data['is_vegetarian'] == 'cold-beverage' else False
-                dish_data['allergens'] = random.choices(population=allergens, k=random.randint(0, 5))
-                dish_data['price'] = round(random.random(0.5, 25), 2)
+                dish_data['is_alcohol'] = random.choice([False, True]) if dish_data['dish_type'] == 'cold-beverage' else False
+                dish_data['allergens'] = random.sample(population=self.allergens, k=random.randint(0, 5))
+                dish_data['price'] = round(random.uniform(0.5, 25), 2)
                 dish_data['weight'] = random.randint(25, 500)
                 dish_data['calories'] = random.randint(50, 1000)
-                dish_data['dish_name'] = 
+                dish_data['dish_name'] = random.choice(self.example_dishes).title()
+
+                dish = new_dish(dish_data)
+                print('Random dish generated.')
+                response.append(dish)
+
+            except:
+                continue
+        return response
 
 
-# Demo Code
-for dish in data.examples.example_dishes:
-    new_dish(dish)
+def gen_key(pwd):
+    password_provided = pwd
+    password = password_provided.encode()
+    salt = b'\xc0W\xe3\xb0M\t;;\x15\xbb\xc8T\x90=\xcd7' + sha256(password).digest()
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100000, backend=default_backend())
+    key = base64.urlsafe_b64encode(kdf.derive(password))
+    return key
 
-for flight in data.examples.example_flights:
-    new_flight(flight)
+def serialize_to_bytes(obj, outfile=None, passwd=False):
+    obj_type = obj[0].__class__.__name__.lower()
+    if not outfile:
+        outfile=f'{obj_type}.flm'
+    if passwd:
+        load_dotenv()
+        try:
+            PASSWORD = os.getenv('PASSWORD')
+        except:
+            print('No password found in environment variables')
+            raise EnvironmentError
+        fenc = Fernet(gen_key(PASSWORD))
 
-fgen = Flight_Generator()
-fgen(5)
+    with open(outfile, 'wb') as outfile:
+        out = fenc.encrypt(pickle.dumps(obj)) if passwd else pickle.dumps(obj)
+        if passwd:
+            outfile.write('PWRD'.encode())
+        else:
+            outfile.write('OPEN'.encode())
+        outfile.write(out)
+        return out
 
-for flight in flights:
-    print(flight.flight_description)
-# ---
+def serialize_to_csv(obj, outfile=None):
+    obj_type = obj[0].__class__.__name__.lower()
+    headers = obj[0].to_csv()[0]
+    if not outfile:
+        outfile=f'{obj_type}.csv'
+    with open(outfile, 'w', newline='', encoding="utf-8") as csvfile:
+        csvfile.write(headers + '\n')
+        for elem in obj:
+            csvfile.write(elem.to_csv()[1] + '\n')
+    return csvfile
+
+def read_from_bytes(infile):
+    with open(infile, 'rb') as infile:
+        try:
+            header = infile.read(4).decode()
+        except:
+            raise IOError('Invalid filetype')
+
+        if header == 'PWRD':
+            passwd = True
+            load_dotenv()
+            try:
+                PASSWORD = os.getenv('PASSWORD')
+            except:
+                print('No password found in environment variables')
+                raise EnvironmentError
+            fenc = Fernet(gen_key(PASSWORD))
+        elif header == 'OPEN':
+            passwd = False
+        else:
+            raise IOError('Invalid filetype')
+        
+        content = infile.read()
+        if passwd:
+            content = fenc.decrypt(content)
+        return(pickle.loads(content))
+
+def load_flights_from_file(infile='Flight.flm', replace=False):
+    global flights
+    if replace: flights = read_from_bytes(infile)
+    if not replace: flights.extend(read_from_bytes(infile))
+
+def load_dishes_from_file(infile='Dish.flm', replace=False):
+    global dishes
+    if replace: dishes = read_from_bytes(infile)
+    if not replace: dishes.extend(read_from_bytes(infile))
+
+def demo():
+    # Demo Code
+    for dish in data.examples.example_dishes:
+        new_dish(dish)
+
+    for flight in data.examples.example_flights:
+        new_flight(flight)
+
+    fgen = Flight_Generator()
+    fgen(5)
+
+    dgen = Dish_Generator()
+    dgen(5)
+
+    for flight in flights:
+        print(flight.flight_description)
+
+    for dish in dishes:
+        print(dish.dish_name)
+    '''
+    serialize_to_bytes(obj=flights, passwd=True)
+    serialize_to_bytes(obj=dishes, passwd=True)
+    load_flights_from_file(replace=True)
+    load_dishes_from_file(replace=True)
+
+    for flight in flights:
+        print(flight.flight_description)
+
+    for dish in dishes:
+        print(dish.dish_name)
+    '''
+    # ---
+
+demo()
+flights[4].add_dish(dishes[4])
+flights[4].add_dish(dishes[5])
+serialize_to_csv(flights)
+serialize_to_csv(dishes)
+print(dishes[4].to_csv()[1])
+print(flights[4].to_csv()[1])
