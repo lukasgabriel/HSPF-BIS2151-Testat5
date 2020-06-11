@@ -137,3 +137,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 *.pyc
+*.flm
+etc/testat4python/dish.csv
+etc/testat4python/flight.csv
