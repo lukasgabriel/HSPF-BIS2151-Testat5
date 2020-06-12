@@ -36,8 +36,9 @@ public class Eaf {
     //The reference for the dish manager. Handles the creation, update, deletion and displaying of dishes.
     private static DishManager dishManager;
 
-    // Program entry point
-    public static void main(String[] args) {
+    // Old program entry point for Testat 3
+    // New entry point can be found in the Main class.
+    public static void oldMain(String[] args) {
         // Initialise all needed objects.
         // Initialise the managers before initialising the menues.
         flightManager = new FlightManager();
