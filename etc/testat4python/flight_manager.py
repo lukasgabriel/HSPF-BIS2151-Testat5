@@ -6,6 +6,7 @@ This console application manages the information used by an air travel catering 
 
 import base64
 import os
+import json
 from dotenv import load_dotenv
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -178,13 +179,27 @@ class Dish():
             if field == 'dish_data': continue
             header += f'{field},'
             if field == 'flights':
-                value = str([f'{flight.flight_shortname}/{flight.flight_id}' for flight in self.flights])
+                value = str([f'{flight.flight_shortname}~{flight.flight_id}' for flight in self.flights])
             else:
                 value = str(eval(f'self.{field}'))
             csvstring += f'{value}|'
         csvstring = csvstring.replace(',', ';').replace('|', ',')
         return header, csvstring
 
+    def to_dict(self):
+        dictionary = {}
+        for field in self.dish_data_fields:
+            if field == 'dish_data': continue
+            if field == 'flights':
+                dictionary['flights'] = [f'{flight.flight_shortname}~{flight.flight_id}' for flight in self.flights]
+            elif field == 'allergens':
+                dictionary['allergens'] = self.allergens
+            else:
+                dictionary[field] = eval(f'self.{field}')
+        return dictionary
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
 
 class Flight():
@@ -310,7 +325,7 @@ class Flight():
                 continue
             header += f'{field},'
             if field == 'dishes':
-                value = str([f'{dish.dish_shortname}/{dish.dish_id}' for dish in self.dishes])
+                value = str([f'{dish.dish_shortname}~{dish.dish_id}' for dish in self.dishes])
             elif field == 'flight_description':
                 value = self.flight_description.replace(',', '')
             else:
@@ -318,6 +333,22 @@ class Flight():
             csvstring += f'{value}|'
         csvstring = csvstring.replace(',', ';').replace('|', ',')
         return header, csvstring
+
+    def to_dict(self):
+        dictionary = {}
+        for field in self.flight_data_fields:
+            if field in ['flight_data', 'origin_data', 'destination_data']: 
+                continue
+            if field == 'dishes':
+                dictionary['dishes'] = [f'{dish.dish_shortname}~{dish.dish_id}' for dish in self.dishes]
+            elif field in ['departure_time', 'arrival_time', 'flight_duration']:
+                dictionary[field] = str(eval(f'self.{field}'))
+            else:
+                dictionary[field] = eval(f'self.{field}')
+        return dictionary
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
 
 def new_flight(flight_data: dict) -> Flight:
@@ -462,6 +493,18 @@ def serialize_to_csv(obj, outfile=None):
             csvfile.write(elem.to_csv()[1] + '\n')
     return csvfile
 
+def serialize_to_json(obj, outfile=None, indent=4):
+    obj_type = obj[0].__class__.__name__.lower()
+    if not outfile:
+        outfile=f'{obj_type}.json'
+    with open(outfile, 'w', newline='', encoding="utf-8") as jsonfile:
+        jsonfile.write('[')
+        for elem in obj:
+            json.dump(elem.to_dict(), jsonfile, indent=indent)
+            jsonfile.write(', \n')
+        jsonfile.write(']')
+    return jsonfile
+
 def read_from_bytes(infile):
     with open(infile, 'rb') as infile:
         try:
@@ -534,7 +577,10 @@ def demo():
 demo()
 flights[4].add_dish(dishes[4])
 flights[4].add_dish(dishes[5])
+flights[3].add_dish(dishes[4])
 serialize_to_csv(flights)
 serialize_to_csv(dishes)
 print(dishes[4].to_csv()[1])
 print(flights[4].to_csv()[1])
+serialize_to_json(flights)
+serialize_to_json(dishes)
