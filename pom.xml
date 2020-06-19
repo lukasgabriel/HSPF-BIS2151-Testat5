@@ -15,6 +15,38 @@
             <artifactId>postgre</artifactId>
             <version>4.2</version>
         </dependency>
+        <dependency>
+            <groupId>derbyclient.jar</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>derbytrueclient</groupId>
+            <artifactId>derbytrueclient</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>derbynet</groupId>
+            <artifactId>derbynet</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.derby/derby -->
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.15.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>derbyshared</groupId>
+            <artifactId>derbyshared</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>derbytool</groupId>
+            <artifactId>derbytool</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

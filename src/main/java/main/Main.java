@@ -2912,8 +2912,6 @@ public class Main extends javax.swing.JFrame {
     // We chose this design choise so that it is easy to add more content to the frame.
     private Main init() {
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource("icon_128.png")).getImage());
-        
-        
         // Get the layout manager defined in the netbeans designer
         layoutManager = (CardLayout) contentPane.getLayout();
 
@@ -2921,7 +2919,7 @@ public class Main extends javax.swing.JFrame {
         // the user should see after starting the application
         layoutManager.show(contentPane, "overviewContentPane");
 
-        // Start DataBase: Does all the deserialisation
+        // Start DataBase: Does all the data lifting.
         dataBase = new DataBase(this);
 
         // Setup the flight table controller
@@ -2933,7 +2931,6 @@ public class Main extends javax.swing.JFrame {
         flightTableController.populate();
         // sets the listeners needed to listen to table select events.
         flightTableController.listen();
-        
         
         // Same for the dish overview
         dishTableController = new DishTableController(this, dishTable);
