@@ -1,5 +1,4 @@
 base64
-dotenv
 cryptography
 hashlib
 pandas
@@ -8,3 +7,4 @@ datetime
 hashids
 random
 pickle
+python-dotenv
