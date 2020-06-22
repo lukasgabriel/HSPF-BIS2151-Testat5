@@ -23,6 +23,7 @@ import pickle
 import data.examples
 
 
+
 # airports_url = 'https://raw.githubusercontent.com/datasets/airport-codes/master/data/airport-codes.csv'  # Only using local copy while testing
 airports_fallback = 'data\\airport-codes.csv'
 
@@ -555,12 +556,12 @@ def demo():
     dgen = Dish_Generator()
     dgen(5)
 
+    '''
     for flight in flights:
         print(flight.flight_description)
 
     for dish in dishes:
         print(dish.dish_name)
-    '''
     serialize_to_bytes(obj=flights, passwd=True)
     serialize_to_bytes(obj=dishes, passwd=True)
     load_flights_from_file(replace=True)
@@ -573,14 +574,4 @@ def demo():
         print(dish.dish_name)
     '''
     # ---
-
-demo()
-flights[4].add_dish(dishes[4])
-flights[4].add_dish(dishes[5])
-flights[3].add_dish(dishes[4])
-serialize_to_csv(flights)
-serialize_to_csv(dishes)
-print(dishes[4].to_csv()[1])
-print(flights[4].to_csv()[1])
-serialize_to_json(flights)
-serialize_to_json(dishes)
+     
