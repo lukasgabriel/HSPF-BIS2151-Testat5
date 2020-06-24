@@ -6,6 +6,7 @@
  */
 package items;
 
+import database.DataBase;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -135,6 +136,7 @@ public class Flight extends Item {
         update(name);
         this.startAirport = startAiport;
         this.destinationAirport = destAirport;
+        DataBase.update(this);
     }
 
     public String getDestinationAirport() {

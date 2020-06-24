@@ -7,10 +7,6 @@ package contoller;
 
 import items.Dish;
 import items.Flight;
-import items.Task;
-import items.Task.TaskCallType;
-import items.Task.TaskObjectType;
-import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -26,12 +22,12 @@ import main.Main;
  */
 public class DishTableController extends TableController {
 
-    private JLabel dishTitle;
-    private JLabel dishIDLabel;
-    private JLabel dishVeganLabel;
-    private JLabel dishVegetarianLabel;
-    private JLabel dishPriceLabel;
-    private JLabel dishOvervieFlightContent;
+    private final JLabel dishTitle;
+    private final JLabel dishIDLabel;
+    private final JLabel dishVeganLabel;
+    private final JLabel dishVegetarianLabel;
+    private final JLabel dishPriceLabel;
+    private final JLabel dishOvervieFlightContent;
 
     private Dish currentSelectedDish;
 
@@ -52,9 +48,9 @@ public class DishTableController extends TableController {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         ArrayList<Dish> dishesFromDb = dataBase.getDishData();
 
-        for (Dish dish : dishesFromDb) {
+        dishesFromDb.forEach((dish) -> {
             defaultTable.addRow(new Object[]{dish.getName(), dish.getId(), dish.isVegan(), dish.isVegetarian(), dish.getPrice()});
-        }
+        });
 
     }
 
@@ -92,7 +88,6 @@ public class DishTableController extends TableController {
         table.getModel().addTableModelListener((TableModelEvent evt) -> {
             // Updates the flight references when the table is directly edited
             updateDishList(evt);
-
         });
     }
 
@@ -140,7 +135,6 @@ public class DishTableController extends TableController {
                 break;
             }
         }
-
     }
 
     //Updates the flight reference when the flight table is directly edited.
@@ -203,7 +197,6 @@ public class DishTableController extends TableController {
         dishPriceLabel.setText(Float.toString(dish.getPrice()));
         // Add the flight string
         dishOvervieFlightContent.setText(dishes);
-
     }
 
     // Updates the overview and reloads the table row with the selected row
@@ -296,11 +289,10 @@ public class DishTableController extends TableController {
         String result;
         try {
             result = table.getValueAt(row, index).toString();
-            System.out.println(row);
+           
         } catch (NullPointerException ex) {
             result = "";
         }
-
         return result;
     }
 

@@ -7,10 +7,6 @@ package contoller;
 
 import items.Dish;
 import items.Flight;
-import items.Task;
-import items.Task.TaskCallType;
-import items.Task.TaskObjectType;
-import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -26,14 +22,13 @@ import main.Main;
  */
 public class FlightTableController extends TableController {
 
-    private JLabel flightTitle;
-    private JLabel flightIDLabel;
-    private JLabel flightStartAirportLabel;
-    private JLabel flightdestAirportLabel;
-    private JLabel flightOverviewDishContent;
+    private final JLabel flightTitle;
+    private final JLabel flightIDLabel;
+    private final JLabel flightStartAirportLabel;
+    private final JLabel flightdestAirportLabel;
+    private final JLabel flightOverviewDishContent;
 
     private Flight currentSelectedFlight;
-
 
     public FlightTableController(Main main, JTable table) {
         super(main, table);
@@ -44,7 +39,6 @@ public class FlightTableController extends TableController {
         flightdestAirportLabel = main.getFlightOverviewDestContent();
         flightOverviewDishContent = main.getFlightOverviewDishContent();
 
-       
     }
 
     @Override
@@ -52,9 +46,9 @@ public class FlightTableController extends TableController {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         ArrayList<Flight> flightsFromDb = dataBase.getFlightData();
 
-        for (Flight flight : flightsFromDb) {
+        flightsFromDb.forEach((flight) -> {
             defaultTable.addRow(new Object[]{flight.getName(), flight.getId(), flight.getStartPoint(), flight.getDestinationAirport()});
-        }
+        });
     }
 
     // Refreshes the table row when an flight is updated
@@ -64,7 +58,7 @@ public class FlightTableController extends TableController {
         String name = flight.getName();
         String start = flight.getStartAirport();
         String dest = flight.getDestinationAirport();
-        System.out.println("refresh row_: " + flight);
+
         defaultTable.setValueAt(name, selectedRow, 0);
         defaultTable.setValueAt(start, selectedRow, 2);
         defaultTable.setValueAt(dest, selectedRow, 3);
@@ -89,11 +83,11 @@ public class FlightTableController extends TableController {
 
         });
     }
-    
+
     // Add a flight to the table
     public void addFlight(Flight f) {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
-        
+
         //Build an object array with representative strings of the object
         Object[] dataLine = new Object[4];
         //Get the values
@@ -101,7 +95,7 @@ public class FlightTableController extends TableController {
         String id = f.getId();
         String start = f.getStartAirport();
         String dest = f.getDestinationAirport();
-        
+
         // Pass the values into the array. Could be done when initializing the array
         // but this approach is chosen to improve readability.
         dataLine[0] = name;
@@ -111,26 +105,24 @@ public class FlightTableController extends TableController {
         //Add the dataLine with the data to the table model.
         defaultTable.addRow(dataLine);
     }
-    
-    
+
     // Delete the selected flight
     public void deleteSelected() {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         String id = currentSelectedFlight.getId();
-        
-        for( int i = 0; i < defaultTable.getRowCount(); i++) {
+
+        for (int i = 0; i < defaultTable.getRowCount(); i++) {
             String rowId = (String) defaultTable.getValueAt(i, 1);
-            if(rowId.equals(id)) {
+            if (rowId.equals(id)) {
                 //if id stored in the row is the flight id, remove it from the table
                 selectionPointer = -1;
                 currentSelectedFlight = null;
                 defaultTable.removeRow(i);
-                
+
                 clearOverview();
                 break;
             }
         }
-
     }
 
     //Updates the flight reference when the flight table is directly edited.
@@ -151,23 +143,23 @@ public class FlightTableController extends TableController {
             }
         }
     }
-    
+
     private void clearOverview() {
         flightIDLabel.setText("");
         flightStartAirportLabel.setText("");
         flightdestAirportLabel.setText("");
-        flightOverviewDishContent.setText(""); 
+        flightOverviewDishContent.setText("");
     }
 
     // Updates the overview when the selection of the table is changes
     public void updateOverview(Flight f) {
         int selectedRow = selectionPointer;
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
-        
+
         String name = f.getName();
         String start = f.getStartAirport();
         String dest = f.getDestinationAirport();
-        
+
         defaultTable.setValueAt(name, selectedRow, 0);
         defaultTable.setValueAt(start, selectedRow, 2);
         defaultTable.setValueAt(dest, selectedRow, 3);
@@ -186,24 +178,22 @@ public class FlightTableController extends TableController {
 
     }
 
-    
     // Updates the overview and reloads the table row with the selected row
     // to display changes in between changes of the flight object.
     public void updateOverview() {
-        if(selectionPointer == -1) {
+        if (selectionPointer == -1) {
             return;
         }
         int selectedRow = selectionPointer;
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
-        
+
         String id = tryToFetchAttribute(1, selectedRow);
         Flight f = Flight.flightById(id);
+        String dishes;
 
         defaultTable.setValueAt(f.getName(), selectedRow, 0);
         defaultTable.setValueAt(f.getStartAirport(), selectedRow, 2);
-        System.out.println(f.getStartAirport());
         defaultTable.setValueAt(f.getDestinationAirport(), selectedRow, 3);
-        String dishes;
 
         currentSelectedFlight = f;
         dishes = buildDishString();
@@ -259,11 +249,10 @@ public class FlightTableController extends TableController {
         String result;
         try {
             result = table.getValueAt(row, index).toString();
-            System.out.println(row);
+            
         } catch (NullPointerException ex) {
             result = "";
         }
-        
         return result;
     }
 
@@ -284,10 +273,7 @@ public class FlightTableController extends TableController {
         return currentSelectedFlight;
     }
 
-    
-
     public TableModel getDefaultTable() {
         return this.table.getModel();
     }
-
 }

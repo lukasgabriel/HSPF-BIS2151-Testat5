@@ -2672,6 +2672,8 @@ public class Main extends javax.swing.JFrame {
         Flight selectedFlight = flightTableController.getSelectedFlight();
         // delete the representation inside the table
         flightTableController.deleteSelected();
+        // remove the object from the database
+        dataBase.deleteFlight(selectedFlight);
         // delete the flight
         selectedFlight.delete();
         // hide the dialogue
@@ -2831,6 +2833,10 @@ public class Main extends javax.swing.JFrame {
         Dish newDish = new Dish(name, vegan, vegetarian, price);
         // Add the dish to the table
         dishTableController.addDish(newDish);
+        // Add the dish to the database
+        dataBase.insertDish(newDish);
+        
+        
         //Hide dialogue
         createDishDialogue.setVisible(false);
         Task t = new Task(TaskObjectType.Dish, TaskCallType.Create);         
@@ -2867,6 +2873,8 @@ public class Main extends javax.swing.JFrame {
         Dish selectedDish = dishTableController.getSelectedDish();
         // delete the representation inside the table
         dishTableController.deleteSelected();
+        // delete the dish in the database
+        dataBase.deleteDish(selectedDish);    
         // delete the flight
         selectedDish.delete();
         // hide the dialogue
