@@ -2580,6 +2580,9 @@ public class Main extends javax.swing.JFrame {
             Flight newFlight = new Flight(name, flightNumber, startAirport, destAirport, passengerAmount, dishCapacity);
             // Add the flight to the table
             flightTableController.addFlight(newFlight);
+            // Add the flight to the database
+            dataBase.insertFlight(newFlight);
+            
             //Hide dialogue
             createFlightDialogue.setVisible(false);
             Task t = new Task(TaskObjectType.Flight, TaskCallType.Create);

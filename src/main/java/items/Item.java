@@ -29,6 +29,16 @@ public class Item {
  
     }
     
+     public Item(String name, String id, Boolean loaded) {
+         if(loaded) {
+            this.name = name;
+            this.id = id;
+         }
+         else {
+           generateUniqueId();  
+         } 
+    }
+    
     
     public void add(Object object) {
        if( !(object instanceof Item)){

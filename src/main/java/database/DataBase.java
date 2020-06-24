@@ -13,13 +13,14 @@ import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Main;
-import org.apache.derby.drda.NetworkServerControl;
+
 
 /**
  *
@@ -28,22 +29,19 @@ import org.apache.derby.drda.NetworkServerControl;
 public class DataBase {
 
     private static Main main;
-    private ArrayList<Flight> deserializedFlights = new ArrayList<>();
-    private ArrayList<Dish> deserializedDishes = new ArrayList<>();
+    
+    private ArrayList<Flight> databaseFlights = new ArrayList<>();
+    private ArrayList<Dish> databaseDishes = new ArrayList<>();
 
     // Database connection
+    private static final String DB_FILENAME = "flights.db";
+    private static final String DB_PATH = "datastorage/" + DB_FILENAME;
+    private static final String URL = "jdbc:sqlite:" + DB_PATH;
     
-    private NetworkServerControl serverControl; // Needed when the JavaDB server is offline
-    private DatabaseMetaData metaData;
-    private Connection connection;
-    private static String dbURL = "jdbc:derby:eaf;create=true";
-
     public DataBase(Main main) {
         DataBase.main = main;
-        // Tries to connect to the database.
-        createConnection();
-        // Check existance of tables
-        checkMetaData();
+        
+     
         // Flight setup -- TESTING 
         Flight f1, f2, f3, f4;
         f1 = new Flight("Test1", "TST", "Amsterdam", "New York", 150, 2);
@@ -51,10 +49,7 @@ public class DataBase {
         f3 = new Flight("Test3", "TS3", "Stuttgart", "Hamburg", 120, 3);
         f4 = new Flight("Test4", "TS4", "Stuttgart", "Hamburg", 120, 3);
 
-        deserializedFlights.add(f1);
-        deserializedFlights.add(f2);
-        deserializedFlights.add(f3);
-        deserializedFlights.add(f4);
+        
 
         Dish d1, d2, d3, d4;
         d1 = new Dish("Butterchicken", false, false, 10f);
@@ -62,10 +57,7 @@ public class DataBase {
         d3 = new Dish("Käsespätzle", false, true, 8f);
         d4 = new Dish("Spaghetti Carbonara", false, false, 9f);
 
-        deserializedDishes.add(d1);
-        deserializedDishes.add(d2);
-        deserializedDishes.add(d3);
-        deserializedDishes.add(d4);
+        
 
         // Add some dishes to flights.
         f1.add(d1);
@@ -77,86 +69,90 @@ public class DataBase {
         // futher implementation of deserilisation.  
     }
 
-    // Build a connection to the database
-    private void createConnection()  {
-        try {   
-            // Set up the connection
-            System.out.println("[DATABASE] ...Creating connection to the database...");
-            connection = DriverManager.getConnection(dbURL);
-            // Meta data from the database
-            metaData = connection.getMetaData();
-            System.out.println("[DATABASE] Connection successfully established.");
-        }
-        catch (SQLException e) {
-            System.out.println("[DATABASE] Failed to connect to the database.");
-        }   
-  
-    }
-
-    // Check the meta data for existance of tables
-    private void checkMetaData() {
+    /**
+     * Create a connection to the database to queue Queries.
+     */
+    
+    private Connection connect() {
+        Connection conn;
         try {
-            // Check if meta data for a flight table exists
-            ResultSet tableFlight = metaData.getTables(null, null, "FLIGHTS", null);
-            if (tableFlight.next()) {
-                // Table exists :)
-                System.out.println("[DATABASE] Found flight table inside the database.");
-            } else {
-                System.out.println("[DATABASE] The databse seems to not contain a table to store the flights.");
-                System.out.println("[DATABASE] ...Creating a new table for flights...");
-                createFlightTable();
+            System.out.println("[DATABASE] Trying to connect to the database...");
+            conn = DriverManager.getConnection(URL);
+            System.out.println("[DATABASE] Connection established.");
+        }
+        catch( SQLException e) {
+            System.out.println("[ERROR] Failed to connect to the database.");
+            return null;
+        }
+        return conn;
+    }
+    
+   
+    public ArrayList<Flight> getFlightData() {
+        String sql = "SELECT * FROM flights";
+        try( Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet resultSet = pstmt.executeQuery();
+            // While we read new data from the database
+            while(resultSet.next()) {
+                String id = resultSet.getString("flightId");
+                String name = resultSet.getString("name");
+                String start = resultSet.getString("start");
+                String dest = resultSet.getString("dest");
+                int passengers = resultSet.getInt("passengers");
+                int dishCap = resultSet.getInt("dishCapacity");
+                
+                Flight f = new Flight(id, name, start, dest, passengers, dishCap, true);
+                databaseFlights.add(f);
             }
-            // Check if dish table exists
-            ResultSet tableDish = metaData.getTables(null, null, "DISHES", null);
-            if (tableDish.next()) {
-                // Table exists!
-                System.out.println("[DATABASE] Found dish table inside the database.");
-            } else {
-                System.out.println("[DATABASE] The databse seems to not contain a table to store the dishes.");
-                System.out.println("[DATABASE] ...Creating a new table for dishes...");
-                createDishTable();
-            }
-            System.out.println("\n[DATABASE] Successfully established a connection to the database and tables. \n");
-        } catch (SQLException e) {
-            System.out.println(e);
+            conn.close();
+        }
+        catch (SQLException e) 
+        {
+            System.out.println("[ERROR] Failed to retrieve flight data."); 
+            System.out.println(e.toString());
+           
+        }
+        return databaseFlights;
+    }
+    
+    
+     public ArrayList<Dish> getDishData() {
+        
+        return databaseDishes;
+    }
+    
+    
+    public void insertFlight(Flight flight) 
+    {
+        //SQL query is prepared with not fixed values
+        //The question marks (?) will be replaced by the actual values.
+        String sql = "INSERT INTO flights(flightId,name, start, dest, passengers, dishCapacity) VALUES(?,?,?,?,?,?)";
+        try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) 
+        {
+            pstmt.setString(1, flight.getId());
+            pstmt.setString(2, flight.getName());
+            pstmt.setString(3, flight.getStartAirport());
+            pstmt.setString(4, flight.getDestinationAirport());
+            pstmt.setInt(5, flight.getMaxPassengers());
+            pstmt.setInt(6, flight.getDishCapacity() );
+            
+            
+            //now completed sql statement is executed
+            pstmt.executeUpdate();
+            System.out.println("[DATABASE] " + flight.getName() + " added into database.");
+            conn.close();
+        } 
+        catch (SQLException e) 
+        {
+            System.out.println(e.getMessage());
         }
     }
+    
+  
 
-    // Create flight table
-    private void createFlightTable() throws SQLException {
-        connection
-                .prepareStatement(
-                        "CREATE TABLE FLIGHTS ("
-                        + "flightId int NOT NULL PRIMARY KEY,"
-                        + "flightName varchar(255),"
-                        + "startAirport varchar(255),"
-                        + "destinationAirport varchar(255),"
-                        + "dishCapacity int,"
-                        + "passengerCapacity int)")
-                .execute();
-        System.out.println("[DATABASE] Successfully created a new table for flight objects.");
-    }
+    
 
-    // Create dish table
-    private void createDishTable() throws SQLException {
-        connection
-                .prepareStatement(
-                        "CREATE TABLE DISHES ("
-                        + "dishId int NOT NULL PRIMARY KEY,"
-                        + "dishName varchar(255),"
-                        + "isVegan boolean,"
-                        + "isVegetarian boolean)")
-                .execute();
-        System.out.println("[DATABASE] Successfully created a new table for dish objects.");
-    }
-
+  
    
 
-    public ArrayList<Dish> getDeserializedDishes() {
-        return deserializedDishes;
-    }
-
-    public ArrayList<Flight> getDeserializedFlights() {
-        return deserializedFlights;
-    }
 }

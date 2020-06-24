@@ -50,7 +50,7 @@ public class FlightTableController extends TableController {
     @Override
     public void populate() {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
-        ArrayList<Flight> flightsFromDb = dataBase.getDeserializedFlights();
+        ArrayList<Flight> flightsFromDb = dataBase.getFlightData();
 
         for (Flight flight : flightsFromDb) {
             defaultTable.addRow(new Object[]{flight.getName(), flight.getId(), flight.getStartPoint(), flight.getDestinationAirport()});

@@ -50,7 +50,7 @@ public class DishTableController extends TableController {
     @Override
     public void populate() {
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
-        ArrayList<Dish> dishesFromDb = dataBase.getDeserializedDishes();
+        ArrayList<Dish> dishesFromDb = dataBase.getDishData();
 
         for (Dish dish : dishesFromDb) {
             defaultTable.addRow(new Object[]{dish.getName(), dish.getId(), dish.isVegan(), dish.isVegetarian(), dish.getPrice()});
