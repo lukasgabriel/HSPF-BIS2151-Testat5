@@ -53,7 +53,7 @@ public class GuiUtils {
     public static void swapActivePane(JPanel activePane) {
         JPanel parentContainer = main.getCustomContentPane();
         main.getLayoutManager().show(parentContainer, activePane.getName());    
-        main.setSize(1450, 660);
+        
     }
     
     

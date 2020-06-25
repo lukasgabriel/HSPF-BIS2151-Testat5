@@ -19,6 +19,11 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dialog;
 import java.awt.LayoutManager;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -30,6 +35,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import settings.Settings;
 import utils.EvalHelper;
 import utils.GuiUtils;
 
@@ -43,7 +49,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     public Main() {
-     
+
         initComponents();
     }
 
@@ -153,6 +159,7 @@ public class Main extends javax.swing.JFrame {
         flightButton = new javax.swing.JButton();
         dishesButton = new javax.swing.JButton();
         groupLabel = new javax.swing.JLabel();
+        settingsButton = new javax.swing.JButton();
         contentPane = new javax.swing.JPanel();
         flightContentPane = new javax.swing.JPanel();
         flightTablePane = new javax.swing.JPanel();
@@ -237,8 +244,18 @@ public class Main extends javax.swing.JFrame {
         dishOverviewPriceLabel = new javax.swing.JLabel();
         dishOverviewPriceContent = new javax.swing.JLabel();
         dishOverviewNewDishButton = new javax.swing.JButton();
+        settingsContentPane = new javax.swing.JPanel();
+        settingsTitle = new javax.swing.JLabel();
+        settingsAppTitle = new javax.swing.JLabel();
+        settingsAppVersion = new javax.swing.JLabel();
+        settingsAppLicencee = new javax.swing.JLabel();
+        settingsAppTitleInput = new javax.swing.JTextField();
+        settingsAppVersionInput = new javax.swing.JTextField();
+        settingsAppLicenceeInput = new javax.swing.JTextField();
+        settingsSaveButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
+        settingsMenuItem = new javax.swing.JMenuItem();
         exitMenu = new javax.swing.JMenuItem();
         basicDataMenu = new javax.swing.JMenu();
         overviewMenu = new javax.swing.JMenuItem();
@@ -246,10 +263,7 @@ public class Main extends javax.swing.JFrame {
         flightMenu = new javax.swing.JMenuItem();
         dishMenu = new javax.swing.JMenuItem();
         manageMenu = new javax.swing.JMenuItem();
-        viewMenu = new javax.swing.JMenu();
-        darkModeEnabledButton = new javax.swing.JRadioButtonMenuItem();
         helpMenu = new javax.swing.JMenu();
-        helpSubMenu = new javax.swing.JMenuItem();
         aboutSubMenu = new javax.swing.JMenuItem();
 
         taskTemplate.setBackground(new java.awt.Color(255, 255, 255));
@@ -1240,6 +1254,18 @@ public class Main extends javax.swing.JFrame {
         groupLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         groupLabel.setText("Group 24");
 
+        settingsButton.setBackground(new java.awt.Color(255, 255, 255));
+        settingsButton.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        settingsButton.setText("Settings");
+        settingsButton.setBorder(null);
+        settingsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        settingsButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navPaneLayout = new javax.swing.GroupLayout(navPane);
         navPane.setLayout(navPaneLayout);
         navPaneLayout.setHorizontalGroup(
@@ -1248,6 +1274,7 @@ public class Main extends javax.swing.JFrame {
             .addComponent(flightButton, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
             .addComponent(overviewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(dishesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(settingsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         navPaneLayout.setVerticalGroup(
             navPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1257,7 +1284,9 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(flightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dishesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 446, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 399, Short.MAX_VALUE)
+                .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(groupLabel))
         );
 
@@ -1331,7 +1360,7 @@ public class Main extends javax.swing.JFrame {
             flightTablePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(flightTablePaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(flightTableInnerPane, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addComponent(flightTableInnerPane, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -1587,7 +1616,7 @@ public class Main extends javax.swing.JFrame {
             flightOverviewPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(flightOverviewPaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(flightOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(flightOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addGap(200, 200, 200))
         );
 
@@ -1603,8 +1632,8 @@ public class Main extends javax.swing.JFrame {
         );
         flightContentPaneLayout.setVerticalGroup(
             flightContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(flightOverviewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
-            .addComponent(flightTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addComponent(flightOverviewPane, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+            .addComponent(flightTablePane, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
         );
 
         contentPane.add(flightContentPane, "flightContentPane");
@@ -1701,7 +1730,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(overviewContentThirdTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(overviewContentThirdScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap())
         );
@@ -1900,7 +1929,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(taskLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(taskScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE))
+                .addComponent(taskScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout accessTaskPanelLayout = new javax.swing.GroupLayout(accessTaskPanel);
@@ -2012,7 +2041,7 @@ public class Main extends javax.swing.JFrame {
             dishTablePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dishTablePaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(dishTablePaneInner, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
+                .addComponent(dishTablePaneInner, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
         );
 
@@ -2287,7 +2316,7 @@ public class Main extends javax.swing.JFrame {
             dishOverviewPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dishOverviewPaneLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(dishOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addComponent(dishOverview, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addGap(200, 200, 200))
         );
 
@@ -2296,11 +2325,107 @@ public class Main extends javax.swing.JFrame {
         contentPane.add(dishContentPane, "dishContentPane");
         dishContentPane.getAccessibleContext().setAccessibleName("dishContentPane");
 
+        settingsContentPane.setName("settingsContentPane"); // NOI18N
+
+        settingsTitle.setFont(new java.awt.Font("Roboto Condensed Light", 1, 24)); // NOI18N
+        settingsTitle.setText("Settings");
+
+        settingsAppTitle.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
+        settingsAppTitle.setText("Application title:");
+
+        settingsAppVersion.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
+        settingsAppVersion.setText("Application version:");
+
+        settingsAppLicencee.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
+        settingsAppLicencee.setText("Application License Group:");
+
+        settingsAppTitleInput.setText("jTextField1");
+
+        settingsAppVersionInput.setText("jTextField1");
+        settingsAppVersionInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsAppVersionInputActionPerformed(evt);
+            }
+        });
+
+        settingsAppLicenceeInput.setText("jTextField1");
+        settingsAppLicenceeInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsAppLicenceeInputActionPerformed(evt);
+            }
+        });
+
+        settingsSaveButton.setText("Save");
+        settingsSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsSaveButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout settingsContentPaneLayout = new javax.swing.GroupLayout(settingsContentPane);
+        settingsContentPane.setLayout(settingsContentPaneLayout);
+        settingsContentPaneLayout.setHorizontalGroup(
+            settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsContentPaneLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(settingsSaveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(settingsContentPaneLayout.createSequentialGroup()
+                        .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(settingsAppTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(settingsTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(settingsAppVersion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(settingsAppLicencee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(settingsAppTitleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(settingsAppVersionInput, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(settingsAppLicenceeInput, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(894, Short.MAX_VALUE))
+        );
+        settingsContentPaneLayout.setVerticalGroup(
+            settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingsContentPaneLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(settingsTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsAppTitle)
+                    .addComponent(settingsAppTitleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsAppVersion)
+                    .addComponent(settingsAppVersionInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(settingsContentPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingsAppLicencee)
+                    .addComponent(settingsAppLicenceeInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(settingsSaveButton)
+                .addContainerGap(406, Short.MAX_VALUE))
+        );
+
+        contentPane.add(settingsContentPane, "settingsContentPane");
+        settingsContentPane.getAccessibleContext().setAccessibleName("settingsContentPane");
+
         getContentPane().add(contentPane);
 
         menuBar.setFont(new java.awt.Font("Roboto Condensed", 0, 12)); // NOI18N
 
         fileMenu.setText("File");
+        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuActionPerformed(evt);
+            }
+        });
+
+        settingsMenuItem.setText("Settings");
+        settingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(settingsMenuItem);
 
         exitMenu.setText("Exit Program");
         exitMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -2314,7 +2439,7 @@ public class Main extends javax.swing.JFrame {
 
         basicDataMenu.setText("Basic Data");
 
-        overviewMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, 0));
+        overviewMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         overviewMenu.setText("Overview");
         overviewMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2324,7 +2449,7 @@ public class Main extends javax.swing.JFrame {
         basicDataMenu.add(overviewMenu);
         basicDataMenu.add(seperator);
 
-        flightMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, 0));
+        flightMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         flightMenu.setText("Manage Flights");
         flightMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2333,7 +2458,7 @@ public class Main extends javax.swing.JFrame {
         });
         basicDataMenu.add(flightMenu);
 
-        dishMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, 0));
+        dishMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
         dishMenu.setText("Manage Dishes");
         dishMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2352,24 +2477,7 @@ public class Main extends javax.swing.JFrame {
 
         menuBar.add(basicDataMenu);
 
-        viewMenu.setText("View");
-
-        darkModeEnabledButton.setSelected(false);
-        darkModeEnabledButton.setText("Dark Mode");
-        darkModeEnabledButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                darkModeEnabledButtonActionPerformed(evt);
-            }
-        });
-        viewMenu.add(darkModeEnabledButton);
-
-        menuBar.add(viewMenu);
-
         helpMenu.setText("Help");
-
-        helpSubMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
-        helpSubMenu.setText("Help");
-        helpMenu.add(helpSubMenu);
 
         aboutSubMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         aboutSubMenu.setText("About");
@@ -2492,10 +2600,6 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_updateFlightDialogueNameInputActionPerformed
 
-    private void darkModeEnabledButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darkModeEnabledButtonActionPerformed
-        darkModeEnabled = true;
-    }//GEN-LAST:event_darkModeEnabledButtonActionPerformed
-
     private void updateFlightDialogueCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateFlightDialogueCancelButtonActionPerformed
         updateFlightDialogue.setVisible(false);
 
@@ -2582,7 +2686,7 @@ public class Main extends javax.swing.JFrame {
             flightTableController.addFlight(newFlight);
             // Add the flight to the database
             dataBase.insertFlight(newFlight);
-            
+
             //Hide dialogue
             createFlightDialogue.setVisible(false);
             Task t = new Task(TaskObjectType.Flight, TaskCallType.Create);
@@ -2632,7 +2736,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_createFlightDialogueDishCapSliderStateChanged
 
     private void aboutSubMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutSubMenuActionPerformed
-        // TODO add your handling code here:
+        GuiUtils.changeNavbar(settingsButton, navPane);
+        GuiUtils.swapActivePane(settingsContentPane);
     }//GEN-LAST:event_aboutSubMenuActionPerformed
 
     private void flightMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flightMenuActionPerformed
@@ -2730,39 +2835,36 @@ public class Main extends javax.swing.JFrame {
         boolean vegetarian = updateDishDialogueVegetarianInput.isSelected();
         float price;
         try {
-            price = Float.valueOf(updateDishDialoguePriceInput.getText().trim()); 
-        } catch(NumberFormatException e) {
+            price = Float.valueOf(updateDishDialoguePriceInput.getText().trim());
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid price. Try again.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
             updateDishDialoguePriceInput.setText("");
             return;
         }
-      
-        
-        if(vegan) {
+
+        if (vegan) {
             vegetarian = true;
         }
 
         boolean isName = EvalHelper.isName(name);
         boolean isPrice = EvalHelper.isPrice(price);
-        
 
         if (!isName || !isPrice) {
-            if(!isPrice) {
+            if (!isPrice) {
                 JOptionPane.showMessageDialog(this, "Invalid price.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
-                return; 
-            }
-            else {
+                return;
+            } else {
                 JOptionPane.showMessageDialog(this, "Invalid name.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-           
+
         }
 
         for (Dish dish : Dish.getAllDishes()) {
             if (dish.getId().equals(id)) {
-                
+
                 dish.update(name, vegan, vegetarian, price);
-                
+
                 // After flight is updated, display the updated values in the table 
                 // and the overview panel
                 dishTableController.refreshDishRow(dish);
@@ -2778,7 +2880,7 @@ public class Main extends javax.swing.JFrame {
 
     private void updateDishDialogueVeganInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDishDialogueVeganInputActionPerformed
         //If dish is vegan, it is vegetarian as well.
-        if(updateDishDialogueVeganInput.isSelected()) {
+        if (updateDishDialogueVeganInput.isSelected()) {
             updateDishDialogueVegetarianInput.setSelected(true);
         }
     }//GEN-LAST:event_updateDishDialogueVeganInputActionPerformed
@@ -2788,7 +2890,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_createDishDialogueNameInputActionPerformed
 
     private void createDishDialogueCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDishDialogueCancelButtonActionPerformed
-       createDishDialogue.setVisible(false);  
+        createDishDialogue.setVisible(false);
         // Set input holders empty
         createDishDialogueNameInput.setText("");
         createDishVeganInput.setSelected(false);
@@ -2797,36 +2899,35 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_createDishDialogueCancelButtonActionPerformed
 
     private void createDishDialogueCreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDishDialogueCreateButtonActionPerformed
-       // Get the values from the creation dialogue
+        // Get the values from the creation dialogue
         String id = createDishDialogueIDInput.getText();
         String name = createDishDialogueNameInput.getText().trim();
         boolean vegan = createDishVeganInput.isSelected();
         boolean vegetarian = createDishVegetarianInput.isSelected();
         float price;
         try {
-            price = Float.valueOf(createDishDialoguePriceInput.getText().trim()); 
-        } catch(NumberFormatException e) {
+            price = Float.valueOf(createDishDialoguePriceInput.getText().trim());
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Invalid price. Try again.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
             createDishDialoguePriceInput.setText("");
             return;
         }
-     
-        if(vegan) {
+
+        if (vegan) {
             vegetarian = true;
         }
 
         boolean isName = EvalHelper.isName(name);
-        boolean isPrice = EvalHelper.isPrice(price);       
+        boolean isPrice = EvalHelper.isPrice(price);
 
         if (!isName || !isPrice) {
-            if(!isPrice) {
+            if (!isPrice) {
                 JOptionPane.showMessageDialog(this, "Invalid price.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
-                return; 
-            }
-            else {
+                return;
+            } else {
                 JOptionPane.showMessageDialog(this, "Invalid name.", "Something went wrong...", JOptionPane.WARNING_MESSAGE);
                 return;
-            }  
+            }
         }
         // If input is OK
         // Create the dish (adds itself to the data array in the background stored in the flight class)
@@ -2835,11 +2936,10 @@ public class Main extends javax.swing.JFrame {
         dishTableController.addDish(newDish);
         // Add the dish to the database
         dataBase.insertDish(newDish);
-        
-        
+
         //Hide dialogue
         createDishDialogue.setVisible(false);
-        Task t = new Task(TaskObjectType.Dish, TaskCallType.Create);         
+        Task t = new Task(TaskObjectType.Dish, TaskCallType.Create);
     }//GEN-LAST:event_createDishDialogueCreateButtonActionPerformed
 
     private void createDishVegetarianInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDishVegetarianInputActionPerformed
@@ -2847,7 +2947,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_createDishVegetarianInputActionPerformed
 
     private void createDishVeganInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createDishVeganInputActionPerformed
-        if(createDishVeganInput.isSelected()) {
+        if (createDishVeganInput.isSelected()) {
             createDishVegetarianInput.setSelected(true);
         }
     }//GEN-LAST:event_createDishVeganInputActionPerformed
@@ -2857,13 +2957,13 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_createDishDialoguePriceInputActionPerformed
 
     private void dishOverviewNewDishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dishOverviewNewDishButtonActionPerformed
-       // Create DISH button pressed on DISH overview
+        // Create DISH button pressed on DISH overview
         createDishDialogue.setLocationRelativeTo(dishOverviewContent);
         createDishDialogue.setVisible(true);
     }//GEN-LAST:event_dishOverviewNewDishButtonActionPerformed
 
     private void flightOverviewNewFlightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flightOverviewNewFlightButtonActionPerformed
-       // Create FLIGHT button pressed on flight overview
+        // Create FLIGHT button pressed on flight overview
         createFlightDialogue.setLocationRelativeTo(flightOverviewContent);
         createFlightDialogue.setVisible(true);
     }//GEN-LAST:event_flightOverviewNewFlightButtonActionPerformed
@@ -2874,7 +2974,7 @@ public class Main extends javax.swing.JFrame {
         // delete the representation inside the table
         dishTableController.deleteSelected();
         // delete the dish in the database
-        dataBase.deleteDish(selectedDish);    
+        dataBase.deleteDish(selectedDish);
         // delete the flight
         selectedDish.delete();
         // hide the dialogue
@@ -2886,6 +2986,34 @@ public class Main extends javax.swing.JFrame {
     private void deletDishDialogueCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletDishDialogueCancelButtonActionPerformed
         deleteDishDialogue.setVisible(false);
     }//GEN-LAST:event_deletDishDialogueCancelButtonActionPerformed
+
+    private void settingsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsMenuItemActionPerformed
+       GuiUtils.changeNavbar(settingsButton, navPane);
+        GuiUtils.swapActivePane(settingsContentPane);
+    }//GEN-LAST:event_settingsMenuItemActionPerformed
+
+    private void settingsAppVersionInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsAppVersionInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsAppVersionInputActionPerformed
+
+    private void settingsAppLicenceeInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsAppLicenceeInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_settingsAppLicenceeInputActionPerformed
+
+    private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
+        // TODO add your handling code here:
+        GuiUtils.changeNavbar(settingsButton, navPane);
+        GuiUtils.swapActivePane(settingsContentPane);
+    }//GEN-LAST:event_settingsButtonActionPerformed
+
+    private void settingsSaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsSaveButtonActionPerformed
+        saveSettings();
+    }//GEN-LAST:event_settingsSaveButtonActionPerformed
+
+    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_fileMenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2923,6 +3051,9 @@ public class Main extends javax.swing.JFrame {
     // We chose this design choise so that it is easy to add more content to the frame.
     private Main init() {
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource("icon_128.png")).getImage());
+        // Load settings
+        loadSettings();
+        
         // Get the layout manager defined in the netbeans designer
         layoutManager = (CardLayout) contentPane.getLayout();
 
@@ -2942,7 +3073,7 @@ public class Main extends javax.swing.JFrame {
         flightTableController.populate();
         // sets the listeners needed to listen to table select events.
         flightTableController.listen();
-        
+
         // Same for the dish overview
         dishTableController = new DishTableController(this, dishTable);
         dishTableController.populate();
@@ -2954,6 +3085,58 @@ public class Main extends javax.swing.JFrame {
         setVisible(true);
         // return the modified object
         return this;
+    }
+
+    
+    // Refresh the display settings
+    public void refreshSettings() {
+        settingsAppTitleInput.setText(settings.getApplicationTitle());
+        settingsAppVersionInput.setText(settings.getApplicationVersion());
+        settingsAppLicenceeInput.setText(settings.getApplicationLicensee());
+        
+        this.setTitle(settings.getApplicationTitle());
+    }
+    
+    // Deserializes the data and stores it into the settings object
+    private void loadSettings() {
+        try {
+            FileInputStream fileInput = new FileInputStream("datastorage/settings.ser");
+            ObjectInputStream oi = new ObjectInputStream(fileInput);
+            settings = (Settings) oi.readObject();
+
+            oi.close();
+            fileInput.close();
+            refreshSettings();
+            
+        } catch (IOException ioEx) {
+            ioEx.printStackTrace();
+        } catch (ClassNotFoundException cEx) {
+            System.out.println("Settings file not found.");
+            cEx.printStackTrace();
+        }
+    }
+
+    /**
+    * Saves the settings to a file.
+    */
+    private void saveSettings() {
+        try {
+            settings.setApplicationVersion(settingsAppVersionInput.getText());
+            settings.setApplicationTitle(settingsAppTitleInput.getText());
+            settings.setApplicationLicensee(settingsAppLicenceeInput.getText());
+            
+            FileOutputStream fileOutput = new FileOutputStream("datastorage/settings.ser");
+            ObjectOutputStream oOut = new ObjectOutputStream(fileOutput);
+
+            oOut.writeObject(settings);
+            oOut.close();
+            fileOutput.close();
+        }
+        catch(IOException ioEx) {
+            ioEx.printStackTrace();
+        }
+        refreshSettings();
+        JOptionPane.showMessageDialog(this, "The settings were saved and should be displayed.", "Settings saved", JOptionPane.DEFAULT_OPTION );
     }
 
     // Getter and setter
@@ -2991,7 +3174,7 @@ public class Main extends javax.swing.JFrame {
     }
 
     public JLabel getDishOverviewFlightContent() {
-         return dishOverviewFlightContent;
+        return dishOverviewFlightContent;
     }
 
     // Getters for flight overview label
@@ -3029,6 +3212,8 @@ public class Main extends javax.swing.JFrame {
         return flightOverviewActionsFeedbackLabel;
     }
 
+    //Setting object - persistent with serilization
+    private Settings settings;
     // Database reference
     private DataBase dataBase;
     // Table control
@@ -3084,7 +3269,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel createFlightDialogueStart;
     private javax.swing.JTextField createFlightDialogueStartInput;
     private javax.swing.JLabel createFlightDialogueTitle;
-    private javax.swing.JRadioButtonMenuItem darkModeEnabledButton;
     private javax.swing.JButton deletDishDialogueCancelButton;
     private javax.swing.JButton deletDishDialogueConfirmButton;
     private javax.swing.JLabel deletDishDialogueFirstLabel;
@@ -3161,7 +3345,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel flightTablePane;
     private javax.swing.JLabel groupLabel;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JMenuItem helpSubMenu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
@@ -3194,6 +3377,17 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTabbedPane quickAccessTabPane;
     private javax.swing.JLabel quickAcessLabel;
     private javax.swing.JPopupMenu.Separator seperator;
+    private javax.swing.JLabel settingsAppLicencee;
+    private javax.swing.JTextField settingsAppLicenceeInput;
+    private javax.swing.JLabel settingsAppTitle;
+    private javax.swing.JTextField settingsAppTitleInput;
+    private javax.swing.JLabel settingsAppVersion;
+    private javax.swing.JTextField settingsAppVersionInput;
+    private javax.swing.JButton settingsButton;
+    private javax.swing.JPanel settingsContentPane;
+    private javax.swing.JMenuItem settingsMenuItem;
+    private javax.swing.JButton settingsSaveButton;
+    private javax.swing.JLabel settingsTitle;
     private javax.swing.JLabel taskContent;
     private javax.swing.JLabel taskLabel;
     private javax.swing.JScrollPane taskScrollPane;
@@ -3231,7 +3425,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField updateFlightDialogueStartInput;
     private javax.swing.JLabel updateFlightDialogueTitle;
     private javax.swing.JButton updateFlightDialogueUpdateButton1;
-    private javax.swing.JMenu viewMenu;
     // End of variables declaration//GEN-END:variables
 
 }
