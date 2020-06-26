@@ -3113,13 +3113,13 @@ public class Main extends javax.swing.JFrame {
     
     private void logStartup() {
         System.out.println("\n\n");
-        System.out.printf("%-24s%n","########################################");
-        System.out.printf("%-24s%n","-----------------------------------------");
-        System.out.printf("%-18s%-10.5s%n",inst.settings.getApplicationTitle(),"v" + inst.settings.getApplicationVersion());
-        System.out.printf("%-24s%n","-----------------------------------------");
-        System.out.printf("%-18s%-10s%n","Licenced by",inst.settings.getApplicationLicensee());
-        System.out.printf("%-24s%n","-----------------------------------------");
-        System.out.printf("%-24s%n","########################################");
+        System.out.printf("%-24s%n","############################################");
+        System.out.printf("%-24s%n","##------------------------------------------");
+        System.out.printf("%-18s%-20s%n","## "+inst.settings.getApplicationTitle()," v" + inst.settings.getApplicationVersion());
+        System.out.printf("%-24s%n","##-----------------------------------------");
+        System.out.printf("%-18s%-18s%n","## Licenced by",inst.settings.getApplicationLicensee());
+        System.out.printf("%-24s%n","##------------------------------------------");
+        System.out.printf("%-24s%n","############################################");
         System.out.println("\n\n");
         log("App running...");
     }
