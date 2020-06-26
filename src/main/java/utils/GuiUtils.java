@@ -14,7 +14,7 @@ import main.Main;
 
 /**
  *
- * @author Cedric Jansen
+ * @author Cedric Jansen, Lukas Gabriel
  */
 public class GuiUtils {
     

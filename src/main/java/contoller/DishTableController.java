@@ -33,7 +33,7 @@ public class DishTableController extends TableController {
 
     public DishTableController(Main main, JTable table) {
         super(main, table);
-
+        System.out.println("[DISH CONTROLLER] Initliasing dish controller...");
         dishTitle = main.getDishOverviewTitle();
         dishIDLabel = main.getDishOverviewIDContent();
         dishVeganLabel = main.getDishOverviewVeganContent();
@@ -45,6 +45,7 @@ public class DishTableController extends TableController {
 
     @Override
     public void populate() {
+        System.out.println("[DISH CONTROLLER] Pupulating dish data...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         ArrayList<Dish> dishesFromDb = dataBase.getDishData();
 
@@ -56,6 +57,7 @@ public class DishTableController extends TableController {
 
     // Refreshes the table row when a dish is updated
     public void refreshDishRow(Dish dish) {
+        System.out.println("[DISH CONTROLLER] Refreshing dish data...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         int selectedRow = selectionPointer;
         String name = dish.getName();
@@ -78,6 +80,7 @@ public class DishTableController extends TableController {
 
     // Called to set the event behaviour of the controller.
     public void listen() {
+        System.out.println("[DISH CONTROLLER] Initialising listeners...");
         //Anonymous subclass used for event handling on selection events
         table.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             // when the selection inside the flight table changes
@@ -93,6 +96,7 @@ public class DishTableController extends TableController {
 
     // Add a dish to the table
     public void addDish(Dish d) {
+        System.out.println("[DISH CONTROLLER] Adding new dish...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
 
         //Build an object array with representative strings of the object
@@ -120,6 +124,7 @@ public class DishTableController extends TableController {
 
     // Delete the selected flight
     public void deleteSelected() {
+        System.out.println("[DISH CONTROLLER] Deleting selected dish...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         String id = currentSelectedDish.getId();
 
@@ -139,6 +144,7 @@ public class DishTableController extends TableController {
 
     //Updates the flight reference when the flight table is directly edited.
     private void updateDishList(TableModelEvent event) {
+        System.out.println("[DISH CONTROLLER] Updating dish data...");
         if (event.getType() == TableModelEvent.UPDATE) {
             int row = event.getFirstRow();
             int lastRow = event.getLastRow();

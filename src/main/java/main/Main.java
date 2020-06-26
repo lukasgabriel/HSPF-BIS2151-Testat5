@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -3040,6 +3041,8 @@ public class Main extends javax.swing.JFrame {
             public void run() {
                 inst = new Main().init();
                 GuiUtils.initMain(inst);
+                inst.logStartup();
+   
             }
         });
 
@@ -3050,8 +3053,13 @@ public class Main extends javax.swing.JFrame {
     //Setup method. Only overview pane should be visible when the application starts
     // We chose this design choise so that it is easy to add more content to the frame.
     private Main init() {
+        log("Initialising database...");
+        // Start DataBase: Does all the data lifting.
+        dataBase = new DataBase(this);
+
+        log("Initialising components...");
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource("icon_128.png")).getImage());
-        // Load settings
+        // Load settings  
         loadSettings();
         
         // Get the layout manager defined in the netbeans designer
@@ -3061,9 +3069,9 @@ public class Main extends javax.swing.JFrame {
         // the user should see after starting the application
         layoutManager.show(contentPane, "overviewContentPane");
 
-        // Start DataBase: Does all the data lifting.
-        dataBase = new DataBase(this);
-
+       
+        
+        log("Initialising table controllers");
         // Setup the flight table controller
         flightTableController = new FlightTableController(this, flightTable);
         // populate the table. Loads flights stored in the database and pushes them
@@ -3078,7 +3086,10 @@ public class Main extends javax.swing.JFrame {
         dishTableController = new DishTableController(this, dishTable);
         dishTableController.populate();
         dishTableController.listen();
-
+        
+        log("Starting autosave feature");
+        dataBase.startAutosave();
+        
         pack();
         this.setSize(1450, 660);
         // set the frame's visibility
@@ -3086,10 +3097,37 @@ public class Main extends javax.swing.JFrame {
         // return the modified object
         return this;
     }
+    
+    
+    // called when the database is not existing
+    public void databaseNotExisting() {
+        log("Database does not exist.");
+        int res = JOptionPane.showOptionDialog(null, "The database file could not be found.", "Something went wrong...", JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        System.exit(0);
+    }
+    
+    //Log messaged
+    public void log(String message) {
+        System.out.println("[APP] " + message);
+    }
+    
+    private void logStartup() {
+        System.out.println("\n\n");
+        System.out.printf("%-24s%n","########################################");
+        System.out.printf("%-24s%n","-----------------------------------------");
+        System.out.printf("%-18s%-10.5s%n",inst.settings.getApplicationTitle(),"v" + inst.settings.getApplicationVersion());
+        System.out.printf("%-24s%n","-----------------------------------------");
+        System.out.printf("%-18s%-10s%n","Licenced by",inst.settings.getApplicationLicensee());
+        System.out.printf("%-24s%n","-----------------------------------------");
+        System.out.printf("%-24s%n","########################################");
+        System.out.println("\n\n");
+        log("App running...");
+    }
 
     
     // Refresh the display settings
     public void refreshSettings() {
+        log("Refreshing display to display proper settings");
         settingsAppTitleInput.setText(settings.getApplicationTitle());
         settingsAppVersionInput.setText(settings.getApplicationVersion());
         settingsAppLicenceeInput.setText(settings.getApplicationLicensee());
@@ -3099,6 +3137,7 @@ public class Main extends javax.swing.JFrame {
     
     // Deserializes the data and stores it into the settings object
     private void loadSettings() {
+        log("Loading settings from serialized file: datastorage/settings.ser");
         try {
             FileInputStream fileInput = new FileInputStream("datastorage/settings.ser");
             ObjectInputStream oi = new ObjectInputStream(fileInput);
@@ -3106,12 +3145,13 @@ public class Main extends javax.swing.JFrame {
 
             oi.close();
             fileInput.close();
+            log("Settings successfully loaded.");
             refreshSettings();
             
         } catch (IOException ioEx) {
             ioEx.printStackTrace();
         } catch (ClassNotFoundException cEx) {
-            System.out.println("Settings file not found.");
+            log("Failed to load settings");
             cEx.printStackTrace();
         }
     }
@@ -3121,6 +3161,7 @@ public class Main extends javax.swing.JFrame {
     */
     private void saveSettings() {
         try {
+            log("Saving settings to: datastorage/settings.ser");
             settings.setApplicationVersion(settingsAppVersionInput.getText());
             settings.setApplicationTitle(settingsAppTitleInput.getText());
             settings.setApplicationLicensee(settingsAppLicenceeInput.getText());
@@ -3131,6 +3172,7 @@ public class Main extends javax.swing.JFrame {
             oOut.writeObject(settings);
             oOut.close();
             fileOutput.close();
+            log("Settings successfully saved");
         }
         catch(IOException ioEx) {
             ioEx.printStackTrace();

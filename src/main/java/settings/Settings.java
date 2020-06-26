@@ -7,7 +7,7 @@ package settings;
 
 /**
  *
- * @author Cedric Jansen
+ * @author Cedric Jansen, Lukas Gabriel
  */
 public class Settings implements java.io.Serializable {
     

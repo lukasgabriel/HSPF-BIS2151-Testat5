@@ -1,4 +1,6 @@
+main\Main$50.class
 main\Main$47.class
+settings\Settings.class
 contoller\DishTableController.class
 items\Task$TaskCallType.class
 main\Main$27.class
@@ -27,6 +29,7 @@ de\hspforzheim\items\Item.class
 main\Main$48.class
 main\Main$13.class
 main\Main$33.class
+main\Main$53.class
 main\Main$3.class
 main\Main$24.class
 main\Main$44.class
@@ -49,12 +52,14 @@ main\Main$6.class
 main\Main$15.class
 main\Main$9.class
 de\hspforzheim\items\DishManager.class
+main\Main$52.class
 main\Main$45.class
 de\hspforzheim\items\FlightManager.class
 de\hspforzheim\menues\DishMenu.class
 de\hspforzheim\items\Flight.class
 main\Main$25.class
 main\Main$35.class
+.netbeans_automatic_build
 items\DishManager.class
 main\Main$18.class
 main\Main$31.class
@@ -70,6 +75,7 @@ main\Main$34.class
 items\Task$1.class
 items\Task$TaskObjectType.class
 main\Main$49.class
+main\Main$54.class
 de\hspforzheim\commands\MenuOperation.class
 main\Main$14.class
 main\Main$26.class
@@ -77,4 +83,5 @@ main\Main$29.class
 main\Main$8.class
 utils\EvalHelper.class
 main\Main$11.class
+main\Main$51.class
 de\hspforzheim\menues\FlightMenu.class

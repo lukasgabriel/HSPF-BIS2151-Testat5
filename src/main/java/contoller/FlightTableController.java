@@ -32,7 +32,7 @@ public class FlightTableController extends TableController {
 
     public FlightTableController(Main main, JTable table) {
         super(main, table);
-
+        System.out.println("[FLIGHT CONTROLLER] Initliasing flight controller...");
         flightTitle = main.getFlightOverviewTitle();
         flightIDLabel = main.getFlightOverviewIDContent();
         flightStartAirportLabel = main.getFlightOverviewStartContent();
@@ -43,6 +43,7 @@ public class FlightTableController extends TableController {
 
     @Override
     public void populate() {
+        System.out.println("[FLIGHT CONTROLLER] Populating data tables...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         ArrayList<Flight> flightsFromDb = dataBase.getFlightData();
 
@@ -53,6 +54,7 @@ public class FlightTableController extends TableController {
 
     // Refreshes the table row when an flight is updated
     public void refreshFlightRow(Flight flight) {
+        System.out.println("[FLIGHT CONTROLLER] Refreshing data tables...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         int selectedRow = selectionPointer;
         String name = flight.getName();
@@ -70,6 +72,7 @@ public class FlightTableController extends TableController {
 
     // Called to set the event behaviour of the controller.
     public void listen() {
+        System.out.println("[FLIGHT CONTROLLER] Initlialisng listeners...");
         //Anonymous subclass used for event handling on selection events
         table.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             // when the selection inside the flight table changes
@@ -86,6 +89,7 @@ public class FlightTableController extends TableController {
 
     // Add a flight to the table
     public void addFlight(Flight f) {
+        System.out.println("[FLIGHT CONTROLLER] Adding new flight...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
 
         //Build an object array with representative strings of the object
@@ -108,6 +112,7 @@ public class FlightTableController extends TableController {
 
     // Delete the selected flight
     public void deleteSelected() {
+        System.out.println("[FLIGHT CONTROLLER] Deleting selected flight...");
         DefaultTableModel defaultTable = (DefaultTableModel) table.getModel();
         String id = currentSelectedFlight.getId();
 
@@ -127,6 +132,7 @@ public class FlightTableController extends TableController {
 
     //Updates the flight reference when the flight table is directly edited.
     private void updateFlightList(TableModelEvent event) {
+        System.out.println("[FLIGHT CONTROLLER] Updating flight..");
         if (event.getType() == TableModelEvent.UPDATE) {
             int row = event.getFirstRow();
             int lastRow = event.getLastRow();
