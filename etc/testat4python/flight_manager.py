@@ -18,16 +18,17 @@ from numpy import nan
 from datetime import datetime, timedelta
 from hashids import Hashids
 import random
+import urllib
 import pickle
 
 import data.examples
 
 
 
-# airports_url = 'https://raw.githubusercontent.com/datasets/airport-codes/master/data/airport-codes.csv'  # Only using local copy while testing
+airports_url = 'https://raw.githubusercontent.com/datasets/airport-codes/master/data/airport-codes.csv'  # Only using local copy while testing
 airports_fallback = 'data\\airport-codes.csv'
 
-# countries_url = 'https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv'  # Only using local copy while testing
+countries_url = 'https://raw.githubusercontent.com/datasets/country-codes/master/data/country-codes.csv'  # Only using local copy while testing
 countries_fallback = 'data\\country-codes.csv'
 
 flights = []
