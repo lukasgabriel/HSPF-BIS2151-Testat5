@@ -53,6 +53,7 @@ public abstract class Manager {
         System.out.println(DELETE_HEAD); // Print the head.
         // If sender is instanceof Flightmanager and there are no flights to delete, return.
         if(listIsEmpty(flights, dishes, sender)) {
+            scanner.close();
             return;
         };
         // While user input is anything but IN, ID or X, loop.

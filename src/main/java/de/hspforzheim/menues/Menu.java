@@ -7,7 +7,6 @@ package de.hspforzheim.menues;
 
 import de.hspforzheim.Eaf;
 import de.hspforzheim.commands.MenuOperation;
-import de.hspforzheim.commands.OperationType;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -105,6 +104,7 @@ public class Menu {
             userInput = -1;
             scanner.next(); // ignore this input and clear stream for the next one.
         }
+        scanner.close();
     }
     
     

@@ -215,7 +215,7 @@ public class FlightManager extends Manager {
                 scanner.next();
             }
         }
-
+        scanner.close();
         return input;
     }
 
@@ -239,6 +239,7 @@ public class FlightManager extends Manager {
                 scanner.next();
             }
         }
+        scanner.close();
         return input;
     }
 
