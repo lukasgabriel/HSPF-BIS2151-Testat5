@@ -6,6 +6,7 @@
  */
 package items;
 
+import database.DataBase;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -38,6 +39,14 @@ public class Dish extends Item {
        this.price = price;
     }
     
+    public Dish(String name, String id, boolean isVegan, boolean isVegetarian, float price, boolean loaded) {
+       super(name,id, loaded);
+       ArrayList<Dish> dishList = Item.getAllDishes();
+       dishList.add(this);
+       setFoodProperties(isVegan, isVegetarian);
+       this.price = price;
+    }
+    
     
     private void setFoodProperties(boolean isVegan, boolean isVegetarian) {
         if(isVegan) {
@@ -57,6 +66,7 @@ public class Dish extends Item {
         this.isVegan = isVegan;
         this.isVegetarian = isVegetarian;
         this.price = price;
+        DataBase.update(this);
     }
     
     // Return a dish with given id
