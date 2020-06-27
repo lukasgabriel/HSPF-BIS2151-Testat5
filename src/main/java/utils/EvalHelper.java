@@ -7,7 +7,7 @@ package utils;
 
 /**
  *
- * @author Cedric Jansen
+ * @author Cedric Jansen, Lukas Gabriel
  */
 public class EvalHelper {
     

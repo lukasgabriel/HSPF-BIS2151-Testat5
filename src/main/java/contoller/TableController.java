@@ -13,7 +13,7 @@ import main.Main;
 
 /**
  *
- * @author Cedric Jansen
+ * @author Cedric Jansen, Lukas Gabriel
  */
 
 // Parent class for all Table Controller
