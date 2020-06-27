@@ -556,22 +556,27 @@ def demo():
     dgen = Dish_Generator()
     dgen(5)
 
-    '''
     for flight in flights:
         print(flight.flight_description)
 
     for dish in dishes:
         print(dish.dish_name)
     serialize_to_bytes(obj=flights, passwd=True)
-    serialize_to_bytes(obj=dishes, passwd=True)
+    serialize_to_bytes(obj=dishes, passwd=False)
     load_flights_from_file(replace=True)
     load_dishes_from_file(replace=True)
+
+    serialize_to_json(obj=flights)
+    serialize_to_json(obj=dishes)
+
+    serialize_to_csv(obj=flights)
+    serialize_to_csv(obj=dishes)
 
     for flight in flights:
         print(flight.flight_description)
 
     for dish in dishes:
         print(dish.dish_name)
-    '''
     # ---
      
+demo()
