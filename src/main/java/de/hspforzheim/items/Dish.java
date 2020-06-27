@@ -6,7 +6,6 @@
 package de.hspforzheim.items;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  *

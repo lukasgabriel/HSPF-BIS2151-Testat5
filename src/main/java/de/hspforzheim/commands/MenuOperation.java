@@ -5,8 +5,6 @@
  */
 package de.hspforzheim.commands;
 
-import de.hspforzheim.Eaf;
-import de.hspforzheim.menues.FlightMenu;
 import java.util.ArrayList;
 
 /**
