@@ -1257,6 +1257,7 @@ public class Main extends javax.swing.JFrame {
 
         settingsButton.setBackground(new java.awt.Color(255, 255, 255));
         settingsButton.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        settingsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/settings_32.png"))); // NOI18N
         settingsButton.setText("Settings");
         settingsButton.setBorder(null);
         settingsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
