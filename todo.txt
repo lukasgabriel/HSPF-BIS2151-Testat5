@@ -1,0 +1,3 @@
+Python: Add GUI & command line logging
+Python: Code comments
+Python: Package as binary
